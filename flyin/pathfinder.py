@@ -1,20 +1,3 @@
-"""Pathfinding for the Fly-in network.
-
-Discovers every valid acyclic route from the start hub to the end hub with a
-depth-first search, then ranks the routes so the scheduler can try the best
-ones first.
-
-Ranking (best first):
-    1. least total turn cost,
-    2. most priority zones traversed,
-    3. fewest zones traversed.
-
-Complexity: the DFS enumerates every simple path, so it is exponential in the
-worst case; this is acceptable for the map sizes used by the project.
-"""
-
-from __future__ import annotations
-
 from flyin.errors import SimulationError
 from flyin.graph import Graph
 from flyin.models import ZoneType

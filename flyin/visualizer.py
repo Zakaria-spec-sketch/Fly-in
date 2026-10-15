@@ -6,7 +6,6 @@ ANSI escape code, turn numbers are highlighted, and a final summary panel
 reports the secondary performance metrics.
 """
 
-from __future__ import annotations
 
 from flyin.graph import Graph
 from flyin.models import ZoneType
@@ -85,14 +84,12 @@ class Visualizer:
         print(f"  zones: {len(self.graph)}")
         print()
 
-    def print_turn(self, turn_index: int, moves: list[str], capacity_info: str = "") -> None:
+    def print_turn(self, turn_index: int, moves: list[str]) -> None:
         """Print a single simulation turn.
 
         Args:
             turn_index: 1-indexed turn number.
             moves: The list of ``D<id>-<destination>`` tokens for this turn.
-            capacity_info: Optional capacity usage summary for this turn,
-                shown when ``--capacity-info`` is enabled.
         """
         colored_moves = []
         for token in moves:
@@ -100,8 +97,6 @@ class Visualizer:
             colored_moves.append(f"{drone_label}-{self._colorize(destination, destination)}")
         prefix = f"{self._style(_DIM)}[turn {turn_index:>3}]{self._style(_RESET)}"
         print(f"{prefix} {' '.join(colored_moves)}")
-        if capacity_info:
-            print(f"{self._style(_DIM)}           {capacity_info}{self._style(_RESET)}")
 
     def print_summary(self, stats: SimulationStats) -> None:
         """Print the final performance summary panel.

@@ -1,6 +1,3 @@
-"""Custom exceptions used across the Fly-in project."""
-
-
 class MapParseError(Exception):
     """Raised when the input map file is syntactically or semantically invalid.
 

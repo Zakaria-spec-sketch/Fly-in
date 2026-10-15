@@ -41,7 +41,6 @@ make run MAP=maps/hard_ultimate.txt
 
 # Or directly:
 python3 main.py maps/subject_example.txt
-python3 main.py maps/subject_example.txt --capacity-info   # show capacity usage per turn
 python3 main.py maps/subject_example.txt --no-color        # disable ANSI colors
 
 # Debug with pdb
@@ -135,16 +134,8 @@ class.
   destination is colored according to its declared `color` metadata, or a
   sensible default based on its zone type (red for restricted, green for
   priority, gray for blocked, white for normal) when no color is set;
-- an optional capacity usage line under each turn when `--capacity-info`
-  is passed, e.g. `Zone roof1: 1/1 drones, Connection hub-roof1: 1/1
-  capacity used`;
 - a final summary panel with the total number of turns, total path cost,
   and average turns/moves per drone.
-
-This gives an at-a-glance read of *where* drones are congregating and
-*why* a given turn produced fewer moves than expected (an occupied,
-capacity-limited zone or connection), which is otherwise hard to see from
-raw text output alone.
 
 `--no-color` disables all ANSI styling for terminals or CI logs that don't
 support it.

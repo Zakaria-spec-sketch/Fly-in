@@ -1,12 +1,3 @@
-"""Domain models for the Fly-in drone routing simulator.
-
-This module defines the core, dependency-free data types used throughout the
-project: zone types, zones, connections and drones. No graph *algorithms*
-live here; :mod:`flyin.graph` builds on top of these primitives.
-"""
-
-from __future__ import annotations
-
 from enum import Enum
 from typing import Optional
 

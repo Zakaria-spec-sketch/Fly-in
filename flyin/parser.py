@@ -1,19 +1,3 @@
-"""Parser for the Fly-in map description format.
-
-Grammar summary (see subject Chapter VI):
-
-    nb_drones: <positive integer>
-    start_hub: <name> <x> <y> [metadata]
-    end_hub: <name> <x> <y> [metadata]
-    hub: <name> <x> <y> [metadata]
-    connection: <name1>-<name2> [metadata]
-    # comment
-
-Metadata is an optional, order-independent, space separated ``key=value``
-list enclosed in square brackets.
-"""
-
-from __future__ import annotations
 
 import re
 

@@ -1,23 +1,3 @@
-"""Scheduling and simulation engine for routing a fleet of drones.
-
-The engine works in three stages:
-
-1. **Path discovery** -- every acyclic route from start to end is found and
-   ranked by :class:`flyin.pathfinder.Pathfinder`.
-2. **Scheduling** -- drones are taken one at a time; for each one, paths are
-   tried from best to worst and the first one whose connections and zones
-   have free capacity at every required turn is booked. If no path fits, the
-   starting turn is advanced and the search retries.
-3. **Timeline** -- the booked schedules are replayed into a chronological
-   list of per-turn movement tokens.
-
-Restricted zones take two turns: the drone is on the connection for one turn
-(``D1-a-b``) and arrives in the zone on the next (``D1-b``). A booked drone
-never waits mid-route, so each zone is only occupied on its arrival turn.
-"""
-
-from __future__ import annotations
-
 from dataclasses import dataclass, field
 
 from flyin.errors import SimulationError
@@ -54,7 +34,6 @@ class Simulation:
         graph: Graph,
         nb_drones: int,
         max_turns: int = 20000,
-        record_capacity_info: bool = False,
     ) -> None:
         """Initialize the simulation.
 
@@ -63,8 +42,6 @@ class Simulation:
             nb_drones: Number of drones to route from start to end.
             max_turns: Safety cap on the starting turn considered while
                 scheduling, guarding against unexpected endless searches.
-            record_capacity_info: Whether to record a per-turn capacity
-                usage snapshot (used by the ``--capacity-info`` CLI flag).
 
         Raises:
             SimulationError: If the graph has no start or end zone.
@@ -88,8 +65,6 @@ class Simulation:
 
         self.history: list[list[str]] = []
         self.stats = SimulationStats()
-        self.record_capacity_info = record_capacity_info
-        self.capacity_snapshots: list[str] = []
 
     # ------------------------------------------------------------------ plan
     def plan(self) -> None:
@@ -210,13 +185,10 @@ class Simulation:
 
         self.history = []
         self.stats.moves_per_turn = []
-        self.capacity_snapshots = []
         for turn in sorted(timeline):
             moves = timeline[turn]
             self.history.append(moves)
             self.stats.moves_per_turn.append(len(moves))
-            if self.record_capacity_info:
-                self.capacity_snapshots.append(self._capacity_snapshot(turn))
         self.stats.total_turns = len(self.history)
 
         for drone in self.drones:
@@ -244,33 +216,6 @@ class Simulation:
                 timeline.setdefault(current_turn, []).append(f"{drone.label}-{zone_b}")
                 current_turn += 1
         return timeline
-
-    def _capacity_snapshot(self, turn: int) -> str:
-        """Build a human-readable capacity usage summary for ``turn``.
-
-        Args:
-            turn: The turn number to summarise.
-
-        Returns:
-            A string such as ``"Zone roof1: 1/1 drones, Connection a-b: 2/2
-            capacity used"`` listing every zone or connection in use, or an
-            empty string if nothing is occupied.
-        """
-        parts: list[str] = []
-        for zone in self.graph.zones():
-            if zone.has_unlimited_capacity:
-                continue
-            used = self._zone_schedule.get(zone.name, {}).get(turn, 0)
-            if used > 0:
-                parts.append(f"Zone {zone.name}: {used}/{zone.max_drones} drones")
-        for connection in self.graph.connections():
-            used = self._connection_schedule.get(self._key(connection), {}).get(turn, 0)
-            if used > 0:
-                parts.append(
-                    f"Connection {connection.name}: {used}/{connection.max_link_capacity} "
-                    "capacity used"
-                )
-        return ", ".join(parts)
 
     @staticmethod
     def _key(connection: Connection) -> str:

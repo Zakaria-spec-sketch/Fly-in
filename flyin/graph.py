@@ -1,12 +1,3 @@
-"""A hand-rolled, dependency-free graph structure.
-
-No third-party graph library (networkx, graphlib, ...) is used anywhere in
-this project; adjacency is tracked manually with plain Python dictionaries
-and lists.
-"""
-
-from __future__ import annotations
-
 from typing import Iterator, Optional
 
 from flyin.models import Connection, Zone
