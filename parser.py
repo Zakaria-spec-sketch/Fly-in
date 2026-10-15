@@ -1,9 +1,7 @@
-
 import re
-
-from flyin.errors import MapParseError
-from flyin.graph import Graph
-from flyin.models import Connection, Zone, ZoneType
+from errors import MapParseError
+from graph import Graph
+from models import Connection, Zone, ZoneType
 
 _ZONE_NAME_RE = re.compile(r"^[^\s\-]+$")
 _METADATA_RE = re.compile(r"\[(.*)\]")

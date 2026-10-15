@@ -1,18 +1,9 @@
-#!/usr/bin/env python3
-"""Command-line entry point for the Fly-in drone routing simulator.
-
-Usage:
-    ./main.py <map_file> [--no-color]
-"""
-
-from __future__ import annotations
-
 import sys
 
-from flyin.errors import MapParseError, SimulationError
-from flyin.parser import MapParser
-from flyin.simulation import Simulation
-from flyin.visualizer import Visualizer
+from errors import MapParseError, SimulationError
+from parser import MapParser
+from simulation import Simulation
+from visualizer import Visualizer
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -49,11 +49,6 @@ class ZoneType(Enum):
         """Whether drones are allowed to enter a zone of this type."""
         return self is not ZoneType.BLOCKED
 
-    @property
-    def is_preferred(self) -> bool:
-        """Whether pathfinding should favour this zone type when tied."""
-        return self is ZoneType.PRIORITY
-
 
 class Zone:
     """A single zone (node) in the drone routing network."""
@@ -153,10 +148,6 @@ class Connection:
             return self.zone_a
         raise ValueError(f"{zone_name!r} is not an endpoint of {self.name!r}")
 
-    def connects(self, zone_name: str) -> bool:
-        """Whether ``zone_name`` is one of this connection's endpoints."""
-        return zone_name in (self.zone_a, self.zone_b)
-
     def __repr__(self) -> str:
         """Return a debug-friendly representation of the connection."""
         return f"Connection({self.zone_a!r}-{self.zone_b!r}, cap={self.max_link_capacity})"
@@ -210,12 +201,6 @@ class Drone:
         """
         self.path = path
         self.path_index = 0
-
-    def next_target(self) -> Optional[str]:
-        """Return the next zone this drone should move towards, if any."""
-        if self.path_index + 1 >= len(self.path):
-            return None
-        return self.path[self.path_index + 1]
 
     def __repr__(self) -> str:
         """Return a debug-friendly representation of the drone."""

@@ -1,6 +1,6 @@
-from flyin.errors import SimulationError
-from flyin.graph import Graph
-from flyin.models import ZoneType
+from errors import SimulationError
+from graph import Graph
+from models import ZoneType
 
 
 class PathNotFoundError(SimulationError):

@@ -1,15 +1,6 @@
-"""Colored terminal visual representation of the simulation.
-
-Provides clear visual feedback of drone movements and zone states directly
-in the terminal: each zone's declared ``color`` metadata is mapped to an
-ANSI escape code, turn numbers are highlighted, and a final summary panel
-reports the secondary performance metrics.
-"""
-
-
-from flyin.graph import Graph
-from flyin.models import ZoneType
-from flyin.simulation import SimulationStats
+from graph import Graph
+from models import ZoneType
+from simulation import SimulationStats
 
 _RESET = "\033[0m"
 _BOLD = "\033[1m"

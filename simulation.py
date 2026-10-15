@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
 
-from flyin.errors import SimulationError
-from flyin.graph import Graph
-from flyin.models import Connection, Drone, DroneStatus, Zone, ZoneType
-from flyin.pathfinder import PathNotFoundError, Pathfinder
+from errors import SimulationError
+from graph import Graph
+from models import Connection, Drone, DroneStatus, Zone, ZoneType
+from pathfinder import PathNotFoundError, Pathfinder
 
 #: A single reservation: (resource key, turn).
 _Booking = tuple[str, int]

@@ -1,6 +1,5 @@
-from typing import Iterator, Optional
-
-from flyin.models import Connection, Zone
+from typing import Optional
+from models import Connection, Zone
 
 
 class Graph:
@@ -50,10 +49,6 @@ class Graph:
         """
         return self._zones[name]
 
-    def zones(self) -> Iterator[Zone]:
-        """Iterate over every zone in the graph."""
-        return iter(self._zones.values())
-
     def add_connection(self, connection: Connection) -> None:
         """Add a bidirectional connection between two existing zones.
 
@@ -91,10 +86,6 @@ class Graph:
             The :class:`Connection` linking both zones, or ``None``.
         """
         return self._connections.get(self._connection_key(zone_a, zone_b))
-
-    def connections(self) -> Iterator[Connection]:
-        """Iterate over every connection in the graph."""
-        return iter(self._connections.values())
 
     def neighbors(self, zone_name: str) -> list[tuple[str, Connection]]:
         """List the neighboring zones reachable from ``zone_name``.
